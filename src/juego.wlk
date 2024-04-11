@@ -1,5 +1,5 @@
 import personajes.*
-import objetos.*
+import elementos.*
 
 /*
  * - debe llevar la cuenta de los puntos acumulados, permitir incrementar los puntos en cualquier cantidad
