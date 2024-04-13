@@ -1,0 +1,50 @@
+import personajes.*
+
+describe "pacman" {
+	test "puede moverse a la derecha" {
+		assert.that(false)
+	}
+	
+	test "si esta en el extremo derecho y se mueve a la derecha aparece en el extremo izquierdo" {
+		assert.that(false)
+	}
+	test "si intenta moverse a la derecha y hay un muro se detiene" {
+		assert.that(false)
+	}
+	
+	
+	
+	test "puede moverse a la izquierda" {
+		assert.that(false)
+	}
+	test "si esta en el extremo izquierda y se mueve a la izquierda aparece en el extremo derecho" {
+		assert.that(false)
+	}
+	test "si intenta moverse a la izquierda y hay un muro se detiene" {
+		assert.that(false)
+	}
+	
+	
+	test "puede moverse abajo" {
+		assert.that(false)
+	}
+	test "si esta en el extremo inferior y se mueve a la abajo aparece en el extremo superior" {
+		assert.that(false)
+	}
+	test "si intenta moverse a la abajo y hay un muro se detiene" {
+		assert.that(false)
+	}
+	
+	
+	test "puede moverse arriba" {
+		assert.that(false)
+	}
+	
+	test "si esta en el extremo superior y se mueve a la arriba aparece en el extremo inferior" {
+		assert.that(false)
+	}
+	test "si intenta moverse a la arriba y hay un muro se detiene" {
+		assert.that(false)
+	}
+	
+}
