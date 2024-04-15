@@ -59,9 +59,11 @@ object juego {
 	// inicia el juego
 	// TODO: si el juego no está preparado debe disparar un error
 	method iniciar() {
+		animacionPacman.animar()
 		if(preparado) {
 			game.start()		
 		}
+		
 	}
 
 }
