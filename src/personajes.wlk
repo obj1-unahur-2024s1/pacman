@@ -5,6 +5,7 @@ object pacman {
 	var position = game.center()
 	var modoSuperPacman = true
 	var vidas = 3
+	var detenido = true
 	
 	method position() {
 		return position
@@ -80,6 +81,7 @@ object pacman {
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverDerecha()
 		} )
+		detenido = false
 	}
 
 	// inicia movimiento continuo hacia la izquierda 
@@ -88,6 +90,7 @@ object pacman {
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverIzquierda()
 		} )
+		detenido = false
 	}
 
 	// inicia movimiento continuo hacia arriba
@@ -96,6 +99,7 @@ object pacman {
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverArriba()
 		} )
+		detenido = false
 	}
 
 	// inicia movimiento continuo hacia abajo
@@ -104,11 +108,15 @@ object pacman {
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverAbajo()
 		} )
+		detenido = false
 	}
 
 	// detiene el movimiento de pacman
 	method detener() {
-		game.removeTickEvent("movimiento-pacman")
+		if(!detenido) {
+			detenido = true
+			game.removeTickEvent("movimiento-pacman")
+		}
 	}
 
 	// recibe ataque de un fantasma
