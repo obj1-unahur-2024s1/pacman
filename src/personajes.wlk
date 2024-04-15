@@ -20,6 +20,7 @@ object animacionPacman {
 		direccion = nuevaDireccion
 	}
 	
+	
 	method siguienteFotograma() {
 		fotograma = (fotograma +1) % 3
 	}
@@ -68,6 +69,10 @@ object pacman {
 
 	method irAInicio() {
 		position = tablero.puntoInicioPacman()
+	}
+
+	method animar() {
+		animacion.animar()
 	}
 
 	// mover un paso a la derecha

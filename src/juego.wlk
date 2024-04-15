@@ -40,7 +40,9 @@ object juego {
 		fantasmaRosa.respawn()
 		game.addVisual(fantasmaRosa)
 		game.addVisual(pacman)
-
+		game.addVisual(superPacmanInador)
+		superPacmanInador.animar()
+		pacman.animar()
 		self.configurarTeclas()
 
 		preparado = true
@@ -59,7 +61,6 @@ object juego {
 	// inicia el juego
 	// TODO: si el juego no está preparado debe disparar un error
 	method iniciar() {
-		animacionPacman.animar()
 		if(preparado) {
 			game.start()		
 		}
