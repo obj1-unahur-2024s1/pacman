@@ -26,7 +26,7 @@ object animacionPacman {
 	}
 	
 	method image() {
-		const img = "pacman/super/" + direccion + "-" + fotograma.toString() + ".png"
+		const img = "pacman/" + direccion + "-" + fotograma.toString() + ".png"
 		return img
 	}
 	

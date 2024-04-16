@@ -79,3 +79,8 @@
 {"exitCode":"SIGINT","level":"info","message":"👾 Game executed program.pacmanGame on ./src","timeElapsed":97651,"timestamp":"2024-04-16T20:39:20.203Z"}
 {"level":"info","message":"⌛ Building environment","timeElapsed":458,"timestamp":"2024-04-16T20:39:38.086Z"}
 {"level":"info","message":"⌛ Validating src/personajes.wlk","timeElapsed":299,"timestamp":"2024-04-16T20:39:38.391Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":292,"timestamp":"2024-04-16T20:39:54.734Z"}
+{"level":"info","message":"⌛ Validating src/personajes.wlk","timeElapsed":243,"timestamp":"2024-04-16T20:39:54.979Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":269,"timestamp":"2024-04-16T20:39:55.337Z"}
+{"level":"info","message":"⌛ Validating src/personajes.wlk","timeElapsed":263,"timestamp":"2024-04-16T20:39:55.604Z"}
+{"exitCode":"SIGINT","level":"info","message":"👾 Game executed program.pacmanGame on ./src","timeElapsed":36300,"timestamp":"2024-04-16T20:39:58.076Z"}
