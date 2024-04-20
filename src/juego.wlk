@@ -40,7 +40,9 @@ object juego {
 		fantasmaRosa.respawn()
 		game.addVisual(fantasmaRosa)
 		game.addVisual(pacman)
-
+		game.addVisual(superPacmanInador)
+		superPacmanInador.animar()
+		pacman.animar()
 		self.configurarTeclas()
 
 		preparado = true
@@ -62,6 +64,7 @@ object juego {
 		if(preparado) {
 			game.start()		
 		}
+		
 	}
 
 }

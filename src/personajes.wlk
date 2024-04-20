@@ -1,11 +1,57 @@
 import wollok.game.*
 import juego.*
 
+/*
+ * este objeto agrega una animación a pacman
+ * este objeto no es agregado directamente al juego, sino que es una propiedad de pacman
+ */
+object animacionPacman {
+	var fotograma = 0
+	var direccion = "derecha"
+	var animando = false
+	const velocidad = 120
+	
+	method direccion() = direccion
+	
+	/*
+	 * precondiciones: las direcciones posibles son derecha, izquierda, arriba, abajo
+	 */
+	method direccion(nuevaDireccion) {
+		direccion = nuevaDireccion
+	}
+	
+	
+	method siguienteFotograma() {
+		fotograma = (fotograma +1) % 3
+	}
+	
+	method image() {
+		const img = "pacman/" + direccion + "-" + fotograma.toString() + ".png"
+		return img
+	}
+	
+	method animar() {
+		self.detener()
+		animando = true
+		game.onTick(velocidad, "pacman-animacion", {
+			self.siguienteFotograma()
+		})
+	}
+	
+	method detener() {
+		if(animando) {
+			animando = false
+			game.removeTickEvent("pacman-animacion")		
+		}
+	}
+}
+
 object pacman {
 	var position = game.center()
 	var modoSuperPacman = true
 	var vidas = 3
 	var detenido = true
+	var animacion = animacionPacman
 	
 	method position() {
 		return position
@@ -16,13 +62,17 @@ object pacman {
 	}
 	
 	method image() {
-		return "pacman/derecha-1.png"
+		return animacion.image()
 	}
 
 	method juegoTerminado() = vidas == 0
 
 	method irAInicio() {
 		position = tablero.puntoInicioPacman()
+	}
+
+	method animar() {
+		animacion.animar()
 	}
 
 	// mover un paso a la derecha
@@ -78,6 +128,8 @@ object pacman {
 	// inicia movimiento continuo hacia la derecha 
 	method movimientoContinuoDerecha() {
 		self.detener()
+		animacion.direccion("derecha")
+		animacion.animar()
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverDerecha()
 		} )
@@ -87,6 +139,8 @@ object pacman {
 	// inicia movimiento continuo hacia la izquierda 
 	method movimientoContinuoIzquierda() {
 		self.detener()
+		animacion.direccion("izquierda")
+		animacion.animar()
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverIzquierda()
 		} )
@@ -96,6 +150,8 @@ object pacman {
 	// inicia movimiento continuo hacia arriba
 	method movimientoContinuoArriba() {
 		self.detener()
+		animacion.direccion("arriba")
+		animacion.animar()
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverArriba()
 		} )
@@ -105,6 +161,8 @@ object pacman {
 	// inicia movimiento continuo hacia abajo
 	method movimientoContinuoAbajo() {
 		self.detener()
+		animacion.direccion("abajo")
+		animacion.animar()
 		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
 			self.moverAbajo()
 		} )
@@ -117,6 +175,7 @@ object pacman {
 			detenido = true
 			game.removeTickEvent("movimiento-pacman")
 		}
+		animacion.detener()
 	}
 
 	// recibe ataque de un fantasma
