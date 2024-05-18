@@ -41,20 +41,29 @@ object juego {
 		game.addVisual(fantasmaRosa)
 		game.addVisual(pacman)
 		game.addVisual(superPacmanInador)
+		game.addVisual(muro)
 		superPacmanInador.animar()
 		pacman.animar()
 		self.configurarTeclas()
+		game.onCollideDo(pacman, {o => o.recibirMordiscoDe(pacman)})
+		game.onCollideDo(fantasmaRosa, {o => o.recibirAtaqueDe(fantasmaRosa)})
 
 		preparado = true
 	}
 	
 	method configurarTeclas() {
-		keyboard.up().onPressDo({pacman.movimientoContinuoArriba()})
-		keyboard.down().onPressDo({pacman.movimientoContinuoAbajo()})
-		keyboard.right().onPressDo({		
-			pacman.movimientoContinuoDerecha()
+		keyboard.up().onPressDo({
+			pacman.iniciarMovimientoContinuoArriba()
 		})
-		keyboard.left().onPressDo({pacman.movimientoContinuoIzquierda()})
+		keyboard.down().onPressDo({
+			pacman.iniciarMovimientoContinuoAbajo()
+		})
+		keyboard.right().onPressDo({		
+			pacman.iniciarMovimientoContinuoDerecha()
+		})
+		keyboard.left().onPressDo({
+			pacman.iniciarMovimientoContinuoIzquierda()
+		})
 	}
 	
 	
@@ -72,8 +81,8 @@ object juego {
 
 object tablero {
 	const position = game.at(2, 1)
-	const ancho = 28
-	const alto = 31
+	const property ancho = 28
+	const property alto = 31
 
 	method position() {
 		return position
