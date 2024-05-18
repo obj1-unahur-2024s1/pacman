@@ -95,6 +95,8 @@ object superPacmanInador {
 	
 }
 
+
+/*
 object muro {
 	const property position = game.at(2,2)
 	method image() = "elementos/obstaculo.png"
@@ -107,6 +109,23 @@ object muro {
 		fantasma.volver()
 	}
 }
+*/
+class Muro {
+	const property position
+	// method image() = "elementos/obstaculo.png"
+	method image() =  "elementos/invisible.png"
+	
+	method recibirMordiscoDe(objeto) {
+		objeto.volver()
+	}
+	
+	method recibirAtaqueDe(fantasma) {
+		fantasma.volver()
+	}
+}
+
+
+
 
 object este {
 	method opuesto() = oeste
