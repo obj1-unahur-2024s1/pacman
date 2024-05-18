@@ -14,9 +14,6 @@ object animacionPacman {
 	
 	method orientacion() = orientacion
 	
-	/*
-	 * precondiciones: las direcciones posibles son derecha, izquierda, arriba, abajo
-	 */
 	method orientacion(nuevaDireccion) {
 		orientacion = nuevaDireccion
 	}
@@ -54,7 +51,7 @@ object pacman {
 	var detenido = true
 	var animacion = animacionPacman
 	const tiksMinimos = 100
-	const tiksBase = 300
+	const tiksBase = 150
 	
 	method position() {
 		return position
@@ -242,15 +239,45 @@ object fantasmaRosa {
 
 
 object fantasmaRojo {
+		var position = game.center()
+
+	method image() = "fantasma/rival1-este.png"
+	method position() = position
+
+	method respawn() {
+		position = tablero.puntoInicoFantasmas()
+	}
 	
+	method recibirMordiscoDe(objeto) {
+	}
 }
 
 object fantasmaVerde {
-}
+	var position = game.center()
+
+	method image() = "fantasma/rival1-este.png"
+	method position() = position
+
+	method respawn() {
+		position = tablero.puntoInicoFantasmas()
+	}
+	
+	method recibirMordiscoDe(objeto) {
+	}}
 
 
 object fantasmaCeleste {
-}
+	var position = game.center()
+
+	method image() = "fantasma/rival1-este.png"
+	method position() = position
+
+	method respawn() {
+		position = tablero.puntoInicoFantasmas()
+	}
+	
+	method recibirMordiscoDe(objeto) {
+	}}
 */
 
 class Fantasma {

@@ -3,32 +3,13 @@ import wollok.game.*
 /*
  * la comidita otorga 1 punto al ser comida
  */
-object comidita {
+class Comidita {
 	method recibirMordiscoDe(objeto) {
 		game.removeVisual(self)
 		objeto.recibirPuntos(1)
 	}
 	
 	method recibirAtaqueDe(fantasma) { }
-}
-
-
-/*
- * la cereza otorga 10 puntos al ser comida
- */
-object cereza {
-	method puntosQueOtorga(){
-		return 10
-	}
-}
-
-/*
- * la cereza otorga 15 puntos al ser comida
- */
-object banana {
-	method puntosQueOtorga(){
-		return 15
-	}
 }
 
 object animacionSuperPacmanInador {
@@ -42,8 +23,7 @@ object animacionSuperPacmanInador {
 	}
 	
 	method image() {
-		const img = "elementos/premio-" + fotograma.toString() + ".png"
-		return img
+		return "elementos/premio-" + fotograma.toString() + ".png"
 	}
 	
 	method animar() {
@@ -64,9 +44,6 @@ object animacionSuperPacmanInador {
 
 
 /*
- * el superPacmanInador 5 puntos al ser comido
- * además, el superPacmanInador tiene la característica de ofrecerle superpoderes al pacman por un tiempo determinado
- */
 object superPacmanInador {
 	const animacion = animacionSuperPacmanInador
 	const position = game.at(3,5)
@@ -95,6 +72,38 @@ object superPacmanInador {
 	
 }
 
+* */
+
+class SuperPacmanInador {
+	const animacion = animacionSuperPacmanInador
+	const position
+	
+	method position() {
+		return position
+	}
+	
+	method image() {		
+		return animacion.image()
+	}
+	
+	method puntosQueOtorga(){
+		return 5
+	}
+	method animar() {
+		animacion.animar()
+	}
+	method recibirMordiscoDe(objeto) {
+		game.removeVisual(self)
+		objeto.convertirSuperPacman()
+	}
+
+	method recibirAtaqueDe(fantasma) { }
+	
+	
+}
+
+
+
 
 /*
 object muro {
@@ -112,8 +121,8 @@ object muro {
 */
 class Muro {
 	const property position
-	// method image() = "elementos/obstaculo.png"
-	method image() =  "elementos/invisible.png"
+//	 method image() = "elementos/obstaculo.png"
+//	method image() =  "elementos/invisible.png"
 	
 	method recibirMordiscoDe(objeto) {
 		objeto.volver()
@@ -123,8 +132,6 @@ class Muro {
 		fantasma.volver()
 	}
 }
-
-
 
 
 object este {

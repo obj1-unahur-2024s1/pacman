@@ -49,9 +49,20 @@ object juego {
 		game.addVisual(fantasma3)
 		game.addVisual(fantasma4)
 		game.addVisual(pacman)
-		game.addVisual(superPacmanInador)
+
+		var inador1 = new SuperPacmanInador(position= game.at(3,5))
+		var inador2 = new SuperPacmanInador(position= game.at(28,5))
+		var inador3 = new SuperPacmanInador(position= game.at(3,27))
+		var inador4 = new SuperPacmanInador(position= game.at(28,27))
+
+		game.addVisual(inador1)
+		game.addVisual(inador2)
+		game.addVisual(inador3)
+		game.addVisual(inador4)
+		
+		inador1.animar()
+		
 		// game.addVisual(muro)
-		superPacmanInador.animar()
 		pacman.animar()
 		self.configurarTeclas()
 		game.onCollideDo(pacman, {o => o.recibirMordiscoDe(pacman)})
@@ -63,7 +74,15 @@ object juego {
 		preparado = true
 	}
 
-	/*
+	method agregarMuroEn(x, y) {
+		const muro = new Muro(position = game.at(x,y))
+		game.addVisual(muro)
+	}
+
+	method dibujarMurosEnPosiciones(matriz) {
+		
+	}
+/* 
 	// version 1
 	method dibujarMuros() {
 		self.agregarMuroEn(2,1)
@@ -71,10 +90,8 @@ object juego {
 		self.agregarMuroEn(4,1)
 		self.agregarMuroEn(5,1)
 		self.agregarMuroEn(6,1)
-		...
 	}
-	*/
-
+*/
 	// version 2
 	method dibujarMuros() {
 		self.dibujarLineaDeMuros(31, [0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0])
@@ -110,7 +127,7 @@ object juego {
 		self.dibujarLineaDeMuros(01, [0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0])
 	}
 
-	method dibujarLineaDeMuros(y, vectorFila) {
+	method dibujarLineaDeMuros(y, vectorFila) {		
 		(0..vectorFila.size()-1).forEach({i=> 
 			if(vectorFila.get(i) > 0 ) {
 				self.agregarMuroEn(i, y)
@@ -118,15 +135,6 @@ object juego {
 		})
 	}
 
-
-	method agregarMuroEn(x, y) {
-		const muro = new Muro(position = game.at(x,y))
-		game.addVisual(muro)
-	}
-
-	method dibujarMurosEnPosiciones(matriz) {
-		
-	}
 
 
 
