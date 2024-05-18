@@ -4,6 +4,12 @@ import wollok.game.*
  * la comidita otorga 1 punto al ser comida
  */
 object comidita {
+	method recibirMordiscoDe(objeto) {
+		game.removeVisual(self)
+		objeto.recibirPuntos(1)
+	}
+	
+	method recibirAtaqueDe(fantasma) { }
 }
 
 
@@ -79,4 +85,58 @@ object superPacmanInador {
 	method animar() {
 		animacion.animar()
 	}
+	method recibirMordiscoDe(objeto) {
+		game.removeVisual(self)
+		objeto.convertirSuperPacman()
+	}
+
+	method recibirAtaqueDe(fantasma) { }
+	
+	
 }
+
+object muro {
+	const property position = game.at(2,2)
+	method image() = "elementos/obstaculo.png"
+	
+	method recibirMordiscoDe(objeto) {
+		objeto.volver()
+	}
+	
+	method recibirAtaqueDe(fantasma) {
+		fantasma.volver()
+	}
+}
+
+object este {
+	method opuesto() = oeste
+	method toString() = "este"
+	method siguienteDireccion() = norte
+	method siguienteX() = 1
+	method siguienteY() = 0
+}
+
+object oeste {
+	method opuesto() = este
+	method toString() = "oeste"
+	method siguienteDireccion() = sur
+	method siguienteX() = -1
+	method siguienteY() = 0
+}
+
+object norte {
+	method opuesto() = sur
+	method toString() = "norte"
+	method siguienteDireccion() = oeste
+	method siguienteX() = 0
+	method siguienteY() = 1
+}
+
+object sur {
+	method opuesto() = norte
+	method toString() = "sur"
+	method siguienteDireccion() = este
+	method siguienteX() = 0
+	method siguienteY() = -1
+}
+

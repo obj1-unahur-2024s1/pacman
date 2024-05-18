@@ -1,5 +1,6 @@
 import wollok.game.*
 import juego.*
+import elementos.*
 
 /*
  * este objeto agrega una animación a pacman
@@ -7,26 +8,25 @@ import juego.*
  */
 object animacionPacman {
 	var fotograma = 0
-	var direccion = "derecha"
+	var orientacion = este
 	var animando = false
 	const velocidad = 120
 	
-	method direccion() = direccion
+	method orientacion() = orientacion
 	
 	/*
 	 * precondiciones: las direcciones posibles son derecha, izquierda, arriba, abajo
 	 */
-	method direccion(nuevaDireccion) {
-		direccion = nuevaDireccion
+	method orientacion(nuevaDireccion) {
+		orientacion = nuevaDireccion
 	}
-	
 	
 	method siguienteFotograma() {
 		fotograma = (fotograma +1) % 3
 	}
 	
 	method image() {
-		const img = "pacman/" + direccion + "-" + fotograma.toString() + ".png"
+		const img = "pacman/" + orientacion.toString() + "-" + fotograma.toString() + ".png"
 		return img
 	}
 	
@@ -48,10 +48,13 @@ object animacionPacman {
 
 object pacman {
 	var position = game.center()
-	var modoSuperPacman = true
+	var celdaAnterior = position
+	var modoSuperPacman = false
 	var vidas = 3
 	var detenido = true
 	var animacion = animacionPacman
+	const tiksMinimos = 100
+	const tiksBase = 300
 	
 	method position() {
 		return position
@@ -74,21 +77,14 @@ object pacman {
 	method animar() {
 		animacion.animar()
 	}
+	
 
+/*
 	// mover un paso a la derecha
 	method moverDerecha() {
-		/*
-		// método con if
-		var nuevoX = position.x() + 1
-		if(nuevoX >= tablero.limiteDerecho()) {
-			nuevoX = tablero.limiteIzquierdo()
-		}
-		*/
-
-		// metodo sin if
 		const nuevoX = tablero.limiteIzquierdo()
 						.max((position.x() + 1) % (tablero.limiteDerecho() + 1))
-
+		celdaAnterior = position
 		position = game.at(
 			nuevoX ,
 			position.y())
@@ -96,6 +92,7 @@ object pacman {
 
 	// mover un paso a la izquierda
 	method moverIzquierda() {
+		celdaAnterior = position
 		var nuevoX = position.x() - 1
 		if(nuevoX < tablero.limiteIzquierdo()) {
 			nuevoX = tablero.limiteDerecho()
@@ -108,6 +105,7 @@ object pacman {
 
 	// mover un paso arriba
 	method moverArriba() {
+		celdaAnterior = position
 		position = game.at(
 			position.x() ,
 			tablero.limiteInferior()
@@ -117,6 +115,8 @@ object pacman {
 
 	// mover un paso abajo
 	method moverAbajo() {
+		celdaAnterior = position
+
 		position = game.at(
 			position.x(),
 			if(position.y() - 1 >= tablero.limiteInferior()) 
@@ -124,51 +124,55 @@ object pacman {
 			else tablero.limiteSuperior()
 			)
 	}
+*/
 
-	// inicia movimiento continuo hacia la derecha 
-	method movimientoContinuoDerecha() {
-		self.detener()
-		animacion.direccion("derecha")
+	method moverUnCasillero() {
+		var nuevoX = (tablero.ancho() + position.x() - tablero.limiteIzquierdo() + animacion.orientacion().siguienteX())
+						% tablero.ancho()
+						+ tablero.limiteIzquierdo()
+
+		var nuevoY = (tablero.alto() + position.y() - tablero.limiteInferior() + animacion.orientacion().siguienteY())
+						% tablero.alto()
+						+ tablero.limiteInferior()
+
+		position = game.at(nuevoX, nuevoY)
+	}
+
+	method mover() {
 		animacion.animar()
-		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
-			self.moverDerecha()
+		game.onTick(tiksMinimos.max(tiksBase - juego.nivel()*10), "movimiento-pacman", {
+			self.moverUnCasillero()
 		} )
 		detenido = false
+	}
+
+	// inicia movimiento continuo hacia la derecha 
+	method iniciarMovimientoContinuoDerecha() {
+		self.detener()
+		animacion.orientacion(este)
+		self.mover()
 	}
 
 	// inicia movimiento continuo hacia la izquierda 
-	method movimientoContinuoIzquierda() {
+	method iniciarMovimientoContinuoIzquierda() {
 		self.detener()
-		animacion.direccion("izquierda")
-		animacion.animar()
-		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
-			self.moverIzquierda()
-		} )
-		detenido = false
+		animacion.orientacion(oeste)
+		self.mover()
 	}
 
 	// inicia movimiento continuo hacia arriba
-	method movimientoContinuoArriba() {
+	method iniciarMovimientoContinuoArriba() {
 		self.detener()
-		animacion.direccion("arriba")
-		animacion.animar()
-		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
-			self.moverArriba()
-		} )
-		detenido = false
+		animacion.orientacion(norte)
+		self.mover()
 	}
 
 	// inicia movimiento continuo hacia abajo
-	method movimientoContinuoAbajo() {
+	method iniciarMovimientoContinuoAbajo() {
 		self.detener()
-		animacion.direccion("abajo")
-		animacion.animar()
-		game.onTick(100.max(150 - juego.nivel()*10), "movimiento-pacman", {
-			self.moverAbajo()
-		} )
-		detenido = false
+		animacion.orientacion(sur)
+		self.mover()
 	}
-
 	// detiene el movimiento de pacman
 	method detener() {
 		if(!detenido) {
@@ -180,9 +184,13 @@ object pacman {
 
 	// recibe ataque de un fantasma
 	// si está en modo "super pacman" no pierde vidas
-	method recibirAtaque(atacante) {
+	method recibirAtaqueDe(atacante) {
 		if(!modoSuperPacman) {
+			game.say(self, "ouch!")
 			vidas = 0.max(vidas - 1)			
+		} else {
+			game.say(self, "chau")
+			game.removeVisual(atacante)
 		}
 		if (self.juegoTerminado()) {
 			game.stop()
@@ -193,12 +201,23 @@ object pacman {
 	// inicia modo superpacman
 	// el tiempo en que el pacman está en este estado disminuye en cada nivel
 	// el tiempo mínimo en el que pacman está en este estado es de 2 segundos
-	method inciarModoSuperpacman() {
+	method convertirSuperPacman() {
 		modoSuperPacman = true
+			game.say(self, "jejeje!")
 
-		game.schedule(2000.max(10000 - juego.nivel()*1000), {
+		game.schedule(2000.max(15000 - juego.nivel()*1000), {
+			game.say(self, "me siento debil :(")
 			modoSuperPacman = false
 		})
+	}
+	
+	method volver() {
+		self.detener()
+		var opuesto = animacion.orientacion().opuesto()
+		var nuevoX = position.x() + opuesto.siguienteX()
+		var nuevoY = position.y() + opuesto.siguienteY()
+		position = game.at(nuevoX, nuevoY)
+		// position = celdaAnterior
 	}
 
 	method esSuperpacman() = modoSuperPacman
@@ -218,12 +237,16 @@ object pacman {
 object fantasmaRosa {
 	var position = game.center()
 
-	method image() = "fantasma/rival1-derecha.png"
+	method image() = "fantasma/rival1-este.png"
 	method position() = position
 
 	method respawn() {
 		position = tablero.puntoInicoFantasmas()
 	}
+	
+	method recibirMordiscoDe(objeto) {
+	}
+	
 }
 
 
